@@ -8,6 +8,8 @@
 #include "RazzHandEvaluator.h"
 #include "StudEightHandEvaluator.h"
 #include "OmahaHighHandEvaluator.h"
+#include "OmahaFiveHandEvaluator.h"
+#include "OmahaSixHandEvaluator.h"
 #include "OmahaEightHandEvaluator.h"
 #include "DeuceToSevenHandEvaluator.h"
 #include "DrawHighHandEvaluator.h"
@@ -47,6 +49,16 @@ boost::shared_ptr<PokerHandEvaluator> PokerHandEvaluator::alloc (const string & 
     case 'O':		//     omaha high
       //ret.reset (new UniversalHandEvaluator (4,4,3,5,2,&CardSet::evaluateHigh, NULL));
       ret.reset (new OmahaHighHandEvaluator);
+      break;
+
+    case '5':		//     omaha five
+      //ret.reset (new UniversalHandEvaluator (4,4,3,5,2,&CardSet::evaluateHigh, NULL));
+      ret.reset (new OmahaFiveHandEvaluator);
+      break;
+
+    case '6':		//     omaha six
+      //ret.reset (new UniversalHandEvaluator (4,4,3,5,2,&CardSet::evaluateHigh, NULL));
+      ret.reset (new OmahaSixHandEvaluator);
       break;
 
     case 'p':		//     pot limit
