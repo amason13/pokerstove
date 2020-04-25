@@ -10,7 +10,7 @@
 #include "PokerHandEvaluator.h"
 #include <boost/math/special_functions/binomial.hpp>
 
-inline int bottomRanks(int x, int n)
+inline int bottomRanksFive(int x, int n)
 {
     int ret = 0;
     for (int i = 0; i < n; i++)
@@ -23,14 +23,14 @@ inline int bottomRanks(int x, int n)
     return ret;
 }
 
-inline int flipAce(int ranks)
+inline int flipAceFive(int ranks)
 {
     return
         ((ranks & ~(1 << 12)) << 1) |
         ((ranks >> 12) & 0x01);
 }
 
-inline int unflipAce(int ranks)
+inline int unflipAceFive(int ranks)
 {
     return
         (ranks >> 1) |
@@ -111,15 +111,15 @@ public:
         // represents the operation of finding the lowest three board ranks not present
         // in the hole cards, and adding the hole cards to make the 5-card low hand.
 
-        int bmask = flipAce(board.rankMask() & 0x107F);
+        int bmask = flipAceFive(board.rankMask() & 0x107F);
         if (nRanksTable[bmask] >= 3)
         {
             for (size_t i = 0; i < hand_candidates.size(); i++)
             {
-                int hmask = flipAce(hand_candidates[i].rankMask() & 0x107F);
+                int hmask = flipAceFive(hand_candidates[i].rankMask() & 0x107F);
                 if (nRanksTable[hmask] < 2)
                     continue;
-                CardSet lowRanks(unflipAce(bottomRanks(bottomRanks(bmask & (~hmask), 3) | hmask, 5)));
+                CardSet lowRanks(unflipAceFive(bottomRanksFive(bottomRanksFive(bmask & (~hmask), 3) | hmask, 5)));
                 PokerEvaluation e = lowRanks.evaluate8LowA5();
                 if (e > eval[1])
                 {
@@ -137,12 +137,12 @@ public:
      */
     PokerEvaluation evaluateTwoCardLow(const CardSet& twocard, const CardSet& board) const
     {
-        int bmask = flipAce(board.rankMask() & 0x107F);
-        int hmask = flipAce(twocard.rankMask() & 0x107F);
+        int bmask = flipAceFive(board.rankMask() & 0x107F);
+        int hmask = flipAceFive(twocard.rankMask() & 0x107F);
         if (nRanksTable[hmask] < 2)
             return PokerEvaluation();
-        CardSet lowRanks(unflipAce(
-            bottomRanks(bottomRanks(bmask & (~hmask), 3) | hmask, 5)));
+        CardSet lowRanks(unflipAceFive(
+            bottomRanksFive(bottomRanksFive(bmask & (~hmask), 3) | hmask, 5)));
         return lowRanks.evaluate8LowA5();
     }
 
@@ -151,15 +151,15 @@ public:
         PokerEvaluation eval;
         std::vector<CardSet> hand_candidates(10);
         fillHands(hand_candidates, hand);
-        int bmask = flipAce(board.rankMask() & 0x107F);
+        int bmask = flipAceFive(board.rankMask() & 0x107F);
         if (nRanksTable[bmask] >= 3)
         {
             for (size_t i = 0; i < hand_candidates.size(); i++)
             {
-                int hmask = flipAce(hand_candidates[i].rankMask() & 0x107F);
+                int hmask = flipAceFive(hand_candidates[i].rankMask() & 0x107F);
                 if (nRanksTable[hmask] < 2)
                     continue;
-                CardSet lowRanks(unflipAce(bottomRanks(bottomRanks(bmask & (~hmask), 3) | hmask, 5)));
+                CardSet lowRanks(unflipAceFive(bottomRanksFive(bottomRanksFive(bmask & (~hmask), 3) | hmask, 5)));
                 PokerEvaluation e = lowRanks.evaluate8LowA5();
                 if (e > eval)
                 {
