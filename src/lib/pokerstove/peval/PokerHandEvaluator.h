@@ -81,8 +81,10 @@ public:
      * - 'o'    omaha/high low
      * - 'e'    stud/8
      * - 'b'    badugi
-     * - '5'    5 card omaha high
-     * - '6'    6 card omaha high
+     * - 'F'    5 card omaha high
+     * - 'X'    6 card omaha high
+     * - 'f'    5 card omaha high/lo
+     * - 'x'    6 card omaha high/lo
      */
     typedef boost::shared_ptr<PokerHandEvaluator> eval_ptr;
     static eval_ptr alloc(const std::string& strid);
