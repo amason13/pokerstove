@@ -58,7 +58,7 @@ boost::shared_ptr<PokerHandEvaluator> PokerHandEvaluator::alloc (const string & 
       ret.reset (new OmahaFiveHandEvaluator);
       break;
 
-    case 'S':		//     omaha six
+    case 'X':		//     omaha six
       //ret.reset (new UniversalHandEvaluator (4,4,3,5,2,&CardSet::evaluateHigh, NULL));
       ret.reset (new OmahaSixHandEvaluator);
       break;
@@ -117,7 +117,7 @@ boost::shared_ptr<PokerHandEvaluator> PokerHandEvaluator::alloc (const string & 
       ret.reset (new OmahaFiveEightHandEvaluator);
       break;
     
-    case 's':		//     6 card omaha/high low
+    case 'x':		//     6 card omaha/high low
       //ret.reset (new UniversalHandEvaluator (4,4,3,5,2, &CardSet::evaluateHigh, &CardSet::evaluate8LowA5));
       ret.reset (new OmahaSixEightHandEvaluator);
       break;
